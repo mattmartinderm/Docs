@@ -30,6 +30,7 @@ jobs:
           host: ${{ secrets.SITEGROUND_HOST }}
           username: ${{ secrets.SITEGROUND_USERNAME }}
           key: ${{ secrets.SITEGROUND_SSH_KEY }}
+          passphrase: ${{ secrets.SITEGROUND_SSH_PASSPHRASE }}
           port: ${{ secrets.SITEGROUND_PORT }}
           source: "paycor_full_feed.xml"
           target: "/home/customer/www/mydermrecruiter.com/public_html/feeds/"
