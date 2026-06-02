@@ -1,0 +1,35 @@
+name: Update Paycor JBoard Feed
+
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate XML feed
+        run: python xmlconverter.py
+
+      - name: Upload XML to SiteGround
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SITEGROUND_HOST }}
+          username: ${{ secrets.SITEGROUND_USERNAME }}
+          password: ${{ secrets.SITEGROUND_PASSWORD }}
+          port: ${{ secrets.SITEGROUND_PORT }}
+          source: "paycor_full_feed.xml"
+          target: "/home/customer/www/mydermrecruiter.com/public_html/feeds/"
